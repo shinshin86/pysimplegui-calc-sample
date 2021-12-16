@@ -1,18 +1,21 @@
 import PySimpleGUI as sg
 from calc import add, sub, mul, div
 
-NUM1 = "NUM1"
-NUM2 = "NUM2"
-ADD = "+"
-SUB = "-"
-MUL = "*"
-DIV = "/"
+calc_dict = {
+    "-ADD-": "+ (Add)",
+    "-SUB-": "- (Sub)",
+    "-MUL-": "* (Mul)",
+    "-DIV-": "/ (Div)",
+}
+
 CLOSE_APP = "Close"
 
 calc_frame = [
- [sg.InputText(key=NUM1)],
- [sg.Button(ADD),sg.Button(SUB), sg.Button(MUL), sg.Button(DIV)],
- [sg.InputText(key=NUM2)]
+ [sg.Text("Number 1: "), sg.InputText(key="-NUM1-")],
+ [sg.Radio(item[1], key=item[0], group_id='calc') for item in calc_dict.items()],
+ [sg.Text("Number 2: "), sg.InputText(key="-NUM2-")],
+ [sg.Submit(tooltip="Calculate", key="-CALC-")],
+ [sg.Output(size=(30, 10))]
 ]
 
 layout = [
@@ -26,23 +29,29 @@ while True:
     event, values = window.read()
 
     if event == sg.WIN_CLOSED or event == CLOSE_APP:
+        sg.popup('Bye', title="Close")
         break
-    elif event == ADD:
-        add_result = add(int(values[NUM1]),int(values[NUM2]))
-        result = values[NUM1] + " + " + values[NUM2] + " = " + str(add_result)
-        sg.popup(result)
-    elif event == SUB:
-        sub_result = sub(int(values[NUM1]), int(values[NUM2]))
-        result = values[NUM1] + " - " + values[NUM2] + " = " + str(sub_result)
-        sg.popup(result)
-    elif event == MUL:
-        mul_result = mul(int(values[NUM1]), int(values[NUM2]))
-        result = values[NUM1] + " * " + values[NUM2] + " = " + str(mul_result)
-        sg.popup(result)
-    elif event == DIV:
-        div_result = div(int(values[NUM1]), int(values[NUM2]))
-        result = values[NUM1] + " / " + values[NUM2] + " = " + str(div_result)
-        sg.popup(result)
+
+    elif event == "-CALC-":
+        num1 = values["-NUM1-"]
+        num2 = values["-NUM2-"]
+
+        if values["-ADD-"]:
+            add_result = add(int(num1), int(num2))
+            result = num1 + " + " + num2 + " = " + str(add_result)
+            print(result)
+        elif values["-SUB-"]:
+            add_result = sub(int(num1), int(num2))
+            result = num1 + " - " + num2 + " = " + str(add_result)
+            print(result)
+        elif values["-MUL-"]:
+            add_result = mul(int(num1), int(num2))
+            result = num1 + " * " + num2 + " = " + str(add_result)
+            print(result)
+        elif values["-DIV-"]:
+            add_result = div(int(num1), int(num2))
+            result = num1 + " / " + num2 + " = " + str(add_result)
+            print(result)
 
 
 window.close()
