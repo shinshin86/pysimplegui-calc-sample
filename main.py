@@ -12,7 +12,7 @@ CLOSE_APP = "Close"
 
 calc_frame = [
  [sg.Text("Number 1: "), sg.InputText(key="-NUM1-")],
- [sg.Radio(item[1], key=item[0], group_id='calc') for item in calc_dict.items()],
+ [sg.Radio(item[1], key=item[0], group_id='calc', default=item[0]=="-ADD-") for item in calc_dict.items()],
  [sg.Text("Number 2: "), sg.InputText(key="-NUM2-")],
  [sg.Submit(tooltip="Calculate", key="-CALC-")],
  [sg.Output(size=(30, 10))]
